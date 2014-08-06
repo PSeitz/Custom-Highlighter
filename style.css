@@ -1,0 +1,7 @@
+.tf .container{
+    width:100%;
+}
+
+.tf.jumbotron p {
+    font-size: 14px;
+}

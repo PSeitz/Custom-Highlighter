@@ -1,0 +1,57 @@
+
+<html>
+  <head>
+    <title>Highlighter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!-- <link rel="stylesheet/less" type="text/css" href="style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <!-- <script src="less-1.7.1.min.js" type="text/javascript"></script> -->
+    <!-- // <script charset="utf-8" src="angular.min.js"></script> -->
+
+    <script charset="utf-8" src="js/lib/underscore-min.js"></script>
+    <script charset="utf-8" src="js/lib/angular.min.js"></script>
+    <script charset="utf-8" src="js/lib/angular-touch.min.js"></script>
+    <script charset="utf-8" src="js/lib/angular-animate.min.js"></script>
+    <script charset="utf-8" src="js/lib/angular-route.min.js"></script>
+    <script charset="utf-8" src="js/lib/angular-contenteditable.js"></script>
+
+    <script charset="utf-8" src="js/lib/ui-bootstrap-tpls-0.11.0.min.js"></script> 
+    <script charset="utf-8" src="js/lib/ui-utils.min.js"></script>
+    <script charset="utf-8" src="js/lib/angular-ui-router.min.js"></script>
+
+
+    <script charset="utf-8" src="master.js"></script>
+    <!-- <link rel="stylesheet" href="style.css" type="text/less" media="screen" /> -->
+
+  </head>
+  <body ng-app="highlighter"  ng-controller="HighlightCtrl">
+
+  <li ng-repeat="todo in allHightLights">
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" ng-model="todo.active">
+        </span>
+        <input type="text" class="form-control">
+      </div>
+  </li>
+
+  <form role="form">
+    <div class="form-group">
+    <input id="hightlights" class="form-control" type="text" ng-model="newHighlight" ng-enter="addHighlight()">
+    </div>
+  </form>
+
+  <!-- <div class="edit" contenteditable="true" id="editor">Please type something in here</div> -->
+
+  <div class="jumbotron tf">
+    <div class="container">
+      <div ng-model="text" class="edit" contenteditable="true" id="editor">Please type something in here</div>
+    </div>
+  </div>
+
+</html>
+
+
