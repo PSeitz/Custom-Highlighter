@@ -143,7 +143,7 @@ var simple_colors = [
 	'9acd32'
 ];
 
-var app = angular.module('highlighter', ['ui.bootstrap', "ngAnimate", "ngTouch", "ngRoute","ui.router", 'contenteditable']);
+var app = angular.module('highlighter', ['ui.bootstrap', "ngAnimate", "ngTouch", "ngRoute","ui.router"]);
 
 app.directive('ngEnter', function () {
     return function (scope, element, attrs) {
@@ -185,6 +185,8 @@ app.controller('HighlightCtrl', function($scope, highLightStorage) {
 	var allHightLights = $scope.allHightLights = highLightStorage.get();
 	$scope.newHighlight = '';
 	$scope.text = "Enter yo text";
+	$scope.cutXFirstCharacters = 37;
+
 
 	$scope.addHighlight = function () {
 		var newHighlight = $scope.newHighlight.trim();
@@ -202,6 +204,49 @@ app.controller('HighlightCtrl', function($scope, highLightStorage) {
 
 		$scope.newHighlight = '';
 	};
+
+	// $scope.$watch('text', function(newValue, oldValue) {
+	// 	var cutText = cutLines($scope.text);
+	// 	$scope.text = highlightText(cutText, ["JECreateNTuple"]);
+ //   	});
+
+  //  	$scope.contentChanged = function () {
+		// // $scope.text = " asdfasdf asdf asdasdasdadasdasdasdasdf sadf<div> Enter yo </div> text2";
+		// // var lines = $scope.text.split("\n");
+		// var cutText = cutLines($scope.text);
+		// $scope.text = highlightText(cutText, ["JECreateNTuple"]);
+  //  	};
+
+   	function cutLines(text) {
+   		var lines = text.split("\n");
+		for (var i = 0; i < lines.length; i++) {
+			lines[i]= lines[i].substr($scope.cutXFirstCharacters);
+		}
+		return lines.join("\n");
+   	}
+
+
+   	function highlightText(text, highlightings) {
+		for (var i = 0; i < highlightings.length; i++) {
+			var highlight = highlightings[i];
+			if (highlight.length < 3) continue;
+			var item = simple_colors[Math.floor(Math.random() * simple_colors.length)];
+			if (highlight == "planId=") {
+				text = replaceAll(highlight, '<div style="font-size:20px;background-color: #' + item + '">' + highlight + '</div>', text);
+			}else{
+				text = replaceAll(highlight, '<span style="background-color: #' + item + '">' + highlight + '</span>', text);
+			}
+
+		}
+
+		return text;
+		// <span style="background-color: #FFFF00">Yellow text.</span>
+
+	}
+
+	function replaceAll(find, replace, str) {
+		return str.replace(new RegExp(find, 'g'), replace);
+	}
 
 });
 
@@ -237,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}, false);
 
 	function textChanged() {
-		editor.innerHTML = highlightText(origText, highlightings.split(","));
+		// editor.innerHTML = highlightText(origText, highlightings.split(","));
 	}
 
 	function highlightText(text, highlightings) {
