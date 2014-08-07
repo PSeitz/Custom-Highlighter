@@ -143,7 +143,7 @@ var simple_colors = [
 	'9acd32'
 ];
 
-var app = angular.module('highlighter', ['ui.bootstrap', "ngAnimate", "ngTouch", "ngRoute","ui.router"]);
+var app = angular.module('highlighter', ['ui.bootstrap', "ngAnimate", "ngTouch", "ngRoute","ui.router", 'contenteditable']);
 
 app.directive('ngEnter', function () {
     return function (scope, element, attrs) {
@@ -206,23 +206,23 @@ app.controller('HighlightCtrl', function($scope, highLightStorage) {
 	};
 
 	// $scope.$watch('text', function(newValue, oldValue) {
-	// 	var cutText = cutLines($scope.text);
-	// 	$scope.text = highlightText(cutText, ["JECreateNTuple"]);
+	// 	$scope.text = "Enter yo text2";
  //   	});
 
-  //  	$scope.contentChanged = function () {
-		// // $scope.text = " asdfasdf asdf asdasdasdadasdasdasdasdf sadf<div> Enter yo </div> text2";
-		// // var lines = $scope.text.split("\n");
-		// var cutText = cutLines($scope.text);
-		// $scope.text = highlightText(cutText, ["JECreateNTuple"]);
-  //  	};
+   	$scope.contentChanged = function () {
+		// $scope.text = " asdfasdf asdf asdasdasdadasdasdasdasdf sadf<div> Enter yo </div> text2";
+		// var lines = $scope.text.split("\n");
+		var cutText = cutLines($scope.text);
+		$scope.text = highlightText(cutText, ["JECreateNTuple"]);
+   	};
 
    	function cutLines(text) {
-   		var lines = text.split("\n");
+   		var lines = text.split("</div>");
 		for (var i = 0; i < lines.length; i++) {
 			lines[i]= lines[i].substr($scope.cutXFirstCharacters);
+			lines[i]= "<div>"+lines[i];
 		}
-		return lines.join("\n");
+		return lines.join("</div>");
    	}
 
 
@@ -250,61 +250,61 @@ app.controller('HighlightCtrl', function($scope, highLightStorage) {
 
 });
 
-var cutXFirstCharacters = 37;
+// var cutXFirstCharacters = 37;
 
-// Highligts
-var highlightings = window.localStorage.getItem("highlightings");
+// // Highligts
+// var highlightings = window.localStorage.getItem("highlightings");
 
-document.addEventListener('DOMContentLoaded', function() {
+// document.addEventListener('DOMContentLoaded', function() {
 
-	var editor = document.getElementById("editor");
-	var hightlightsInput = document.getElementById("hightlights");
-	hightlightsInput.value = highlightings;
+// 	var editor = document.getElementById("editor");
+// 	var hightlightsInput = document.getElementById("hightlights");
+// 	hightlightsInput.value = highlightings;
 
-	var origText;
-	editor.addEventListener("input", function() {
-		origText = editor.innerHTML;
+// 	var origText;
+// 	editor.addEventListener("input", function() {
+// 		origText = editor.innerHTML;
 
-		var lines = origText.split("\n");
-		for (var i = 0; i < lines.length; i++) {
-			lines[i]= lines[i].substr(cutXFirstCharacters);
-		}
-		origText = lines.join("\n");
+// 		var lines = origText.split("\n");
+// 		for (var i = 0; i < lines.length; i++) {
+// 			lines[i]= lines[i].substr(cutXFirstCharacters);
+// 		}
+// 		origText = lines.join("\n");
 
-		textChanged();
-	}, false);
+// 		textChanged();
+// 	}, false);
 
-	hightlightsInput.addEventListener("input", function() {
-		highlightings = hightlightsInput.value;
-		window.localStorage.setItem("highlightings", highlightings);
-		textChanged();
-		// alert(document.getElementById("editor").innerHTML);
-	}, false);
+// 	hightlightsInput.addEventListener("input", function() {
+// 		highlightings = hightlightsInput.value;
+// 		window.localStorage.setItem("highlightings", highlightings);
+// 		textChanged();
+// 		// alert(document.getElementById("editor").innerHTML);
+// 	}, false);
 
-	function textChanged() {
-		// editor.innerHTML = highlightText(origText, highlightings.split(","));
-	}
+// 	function textChanged() {
+// 		// editor.innerHTML = highlightText(origText, highlightings.split(","));
+// 	}
 
-	function highlightText(text, highlightings) {
-		for (var i = 0; i < highlightings.length; i++) {
-			var highlight = highlightings[i];
-			if (highlight.length < 3) continue;
-			var item = simple_colors[Math.floor(Math.random() * simple_colors.length)];
-			if (highlight == "planId=") {
-				text = replaceAll(highlight, '<div style="font-size:20px;background-color: #' + item + '">' + highlight + '</div>', text);
-			}else{
-				text = replaceAll(highlight, '<span style="background-color: #' + item + '">' + highlight + '</span>', text);
-			}
+// 	function highlightText(text, highlightings) {
+// 		for (var i = 0; i < highlightings.length; i++) {
+// 			var highlight = highlightings[i];
+// 			if (highlight.length < 3) continue;
+// 			var item = simple_colors[Math.floor(Math.random() * simple_colors.length)];
+// 			if (highlight == "planId=") {
+// 				text = replaceAll(highlight, '<div style="font-size:20px;background-color: #' + item + '">' + highlight + '</div>', text);
+// 			}else{
+// 				text = replaceAll(highlight, '<span style="background-color: #' + item + '">' + highlight + '</span>', text);
+// 			}
 
-		}
+// 		}
 
-		return text;
-		// <span style="background-color: #FFFF00">Yellow text.</span>
+// 		return text;
+// 		// <span style="background-color: #FFFF00">Yellow text.</span>
 
-	}
+// 	}
 
-	function replaceAll(find, replace, str) {
-		return str.replace(new RegExp(find, 'g'), replace);
-	}
+// 	function replaceAll(find, replace, str) {
+// 		return str.replace(new RegExp(find, 'g'), replace);
+// 	}
 
-});
+// });
